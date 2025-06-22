@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Pomodoro Timer Start Page</title>
+    <link rel="stylesheet" href="styles.css" />
+    <!-- embed a pixelized font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <h1>💖 Hello World!</h1>
+    <p>here will appear my pixel-art pomodoro timer! :D Set your timer:</p>
+
+    <!-- selecting a work/break interval -->
+    <fieldset class="start-page-elem">
+      <legend>Select Interval (minutes):</legend>
+      <div>
+        <input type="radio" id="25min" name='interval' value="25" checked ></input>
+        <label for="25min">25/5 min</label>
+      </div>
+  
+      <div>
+        <input type="radio" id="30min" name='interval' value="30" ></input>
+        <label for="30min">30/10 min</label>
+      </div>
+  
+      <div>
+        <input type="radio" id="40min" name='interval' value="40" ></input>
+        <label for="40min">40/10 min</label>
+      </div>
+    </fieldset>
+
+    <!-- selecting a number of cycles -->
+    <fieldset class="start-page-elem">
+      <legend>Select number of cycles:</legend>
+      <div>
+        <input type="range" id="cycles" min="1" max="10" step="1"/>
+        <label for="cycles"><output id="value"></output></label>
+      </div>
+
+      <!-- JS piece to get the value from the slider -->
+      <script>
+        const value = document.querySelector("#value");
+        const input = document.querySelector("#cycles");
+
+        value.textContent = input.value;
+        input.addEventListener("input", (event) => {
+          value.textContent = event.target.value;
+        });
+      </script>
+    </fieldset>
+
+    <button id="start-button" class="start-page-elem">Start</button>
+    <script>
+      document.getElementById("start-button").addEventListener("click", () => {
+      // get selected interval from radio buttons
+      const interval = document.querySelector('input[name="interval"]:checked').value;
+
+      // get cycle count from range input slider
+      const cycles = document.getElementById("cycles").value;
+
+      // Save to URL params
+      window.location.href = `timer.html?interval=${interval}&cycles=${cycles}`;
+      });
+    </script>
+  </body>
+</html>
