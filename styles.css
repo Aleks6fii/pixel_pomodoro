@@ -16,8 +16,8 @@ body {
   font-style: normal;
 } */
 
-p[id="countdown"] {  /* or id selector #countdown {} */
-  font-family: sans-serif;
+div[id="countdown"] {  /* or id selector #countdown {} */
+  /* font-family: sans-serif; */
   font-size: 60px;
 }
 
@@ -25,4 +25,8 @@ p[id="countdown"] {  /* or id selector #countdown {} */
   margin-top: 20px;
   color: #8FBC8F;
   /* background-color: #6B4226; */
+}
+
+p[id="info"] { 
+    font-size: 30px;
 }
