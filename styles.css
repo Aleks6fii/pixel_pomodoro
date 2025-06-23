@@ -17,7 +17,7 @@ body {
 } */
 
 div[id="countdown"] {  /* or id selector #countdown {} */
-  /* font-family: sans-serif; */
+  font-family: "Doto", sans-serif;
   font-size: 60px;
 }
 
