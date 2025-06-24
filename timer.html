@@ -7,19 +7,14 @@
     <!-- embed a pixelized font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Doto:wght@100..900&family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
   </head>
   <body>
-    <h1>💖 Let's start!</h1>
-    <p>Your pomodoro timer is (almost) ready!</p>
-    <p id="info"></p>
+    <h1 id="timer-header">💖 Let's start!</h1>
+    <p id="info">Get ready and click Start</p>
 
-    <div id="cycles-count"></div>
-    <div id="countdown">Loading...</div>
+    <div id="cycles-count">0/0</div>
+    <div id="countdown">00:00</div>
     <button id="toggle-button">Start</button>
     <script src="main.js"></script>
 

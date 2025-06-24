@@ -1,46 +1,76 @@
-// alert("hi! let's get it done :) ")
+// // alert("hi! let's get it done :) ")
 
 const urlParams = new URLSearchParams(window.location.search);
-const intervalMinutes = parseInt(urlParams.get('interval'), 10) || 25;
 const totalCycles = parseInt(urlParams.get('cycles'), 10) || 1;
+const intervalMinutes = parseInt(urlParams.get('interval'), 10) || 25;
+// const intervalMinutes = 2; // DEBUG  
+let breakTime = 10 * 60; // break is 10 mins
+if (intervalMinutes === 25) breakTime = 5 * 60; // or 5 min for 25min interval
 
-let currentCycle = 1;         // "let" bc we want to change these
+let currentCycle = 1;
+let isBreak = false;
 let time = intervalMinutes * 60;
 let timerId = null;
-let breakTime = 10;           // break is 10mins for intervals 30 & 40
-if (intervalMinutes == 25) {  // for interval 25 it is 5mins
-  breakTime = 5;
-}
 
 const button = document.getElementById("toggle-button");
-const countdownElem = document.getElementById("countdown");   // this is timer itself - eg 23:42
-const countCycles = document.getElementById("cycles-count");  // current cycle counter
-const infoElem = document.getElementById("info"); // paragraph to show selected options
+const countdownElem = document.getElementById("countdown");
+const countCycles = document.getElementById("cycles-count");
+const infoElem = document.getElementById("info");
+const headerElem = document.getElementById("timer-header")
 
 infoElem.innerHTML = `Interval: ${intervalMinutes}; Cycles: ${totalCycles}`;
+headerElem.innerHTML = `Do not disturb 📝`
+
 
 function updateTimer() {
   const minutes = Math.floor(time / 60);
   let seconds = time % 60;
-
-  seconds = seconds < 10 ? '0' + seconds : seconds; // to get rid of times like 10:0
+  seconds = seconds < 10 ? '0' + seconds : seconds;
 
   countdownElem.innerHTML = `${minutes}:${seconds}`;
-  countCycles.innerHTML = `${currentCycle}/${totalCycles}`
-  time--;
-}
-// ------------- old part --------------------------------
+  countCycles.innerHTML = `${currentCycle}/${totalCycles}`;
 
+  time--;
+
+  if (time < 0) {
+    clearInterval(timerId);
+    timerId = null;
+
+    if (!isBreak) { // if work interval is finished
+      if (currentCycle >= totalCycles) {
+        headerElem.innerHTML = `🎉 Your session is finished! You are amazing 😸`;
+        button.disabled = true;
+        return;
+      }
+      // start break
+      isBreak = true; 
+      time = breakTime;
+      headerElem.innerHTML = `Break time! ☕️`;
+
+      startTimer();
+    } else {  // if break is finished
+      headerElem.innerHTML = `Do not disturb 📝`
+      isBreak = false;
+      currentCycle++;
+      time = intervalMinutes * 60;
+      startTimer();
+    }
+  }
+}
+
+function startTimer() {
+  updateTimer(); // show initial time immediately
+  timerId = setInterval(updateTimer, 10);
+  button.textContent = "Stop";
+}
 
 button.addEventListener("click", () => {
   if (timerId === null) {
-    // Start the timer
-    timerId = setInterval(updateTimer, 1000); // update every second
-    button.textContent = "Stop";
+    startTimer();
   } else {
-    // Stop the timer
     clearInterval(timerId);
     timerId = null;
     button.textContent = "Start";
   }
 });
+
