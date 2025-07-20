@@ -12,6 +12,9 @@ let isBreak = false;
 let time = intervalMinutes * 60;
 let timerId = null;
 
+// beep sound
+const beep = new Audio("data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAACJWAAACABAAZGF0YQAAAAA=");
+
 const button = document.getElementById("toggle-button");
 const countdownElem = document.getElementById("countdown");
 const countCycles = document.getElementById("cycles-count");
@@ -35,6 +38,9 @@ function updateTimer() {
   if (time < 0) {
     clearInterval(timerId);
     timerId = null;
+
+    // beep.play(); // beep
+    playBeep();
 
     if (!isBreak) { // if work interval is finished
       if (currentCycle >= totalCycles) {
@@ -73,4 +79,21 @@ button.addEventListener("click", () => {
     button.textContent = "Start";
   }
 });
+
+function playBeep() {
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const oscillator = ctx.createOscillator();
+  const gainNode = ctx.createGain();
+
+  oscillator.connect(gainNode);
+  gainNode.connect(ctx.destination);
+
+  oscillator.type = "sine";
+  oscillator.frequency.value = 800;
+  gainNode.gain.setValueAtTime(0.2, ctx.currentTime);
+
+  oscillator.start();
+  oscillator.stop(ctx.currentTime + 0.2);
+}
+
 
